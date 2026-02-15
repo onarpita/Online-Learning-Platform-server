@@ -94,4 +94,33 @@ async function run() {
       res.send(result);
     });
 
+        // specific course api 
+    app.get("/courses/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await coursesCollection.findOne(query);
+      res.send(result);
+    });
+
+    app.get("/instructors", async (req, res) => {
+      const cursor = instructorsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    await client.db("admin").command({ ping: 1 });
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
+  } finally {
+    // Ensures that the client will close when you finish/error
+    // await client.close();
+  }
+}
+run().catch(console.dir);
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
+
 
