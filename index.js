@@ -71,3 +71,18 @@ async function run() {
       const result = await myCourses.findOne({ _id: new ObjectId(id) });
       res.send(result);
     });
+
+        // update api
+    app.patch("/courses/:id", async (req, res) => {
+      const id = req.params.id;
+      const updated = req.body;
+      const query = { _id: new ObjectId(id) };
+      const update = {
+        $set: updated,
+      };
+
+      const result = await myCourses.updateOne(query, update);
+      res.send(result);
+    });
+
+
